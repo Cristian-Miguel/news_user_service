@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 public interface CreateUserUseCase {
 
-    User createUser(User user);
+    User createUser(User user, boolean isEvent);
 
+    void createUserByEvent(String message);
 }
