@@ -7,7 +7,6 @@ import com.user.user_service.role.infrastructure.adapter.output.persistence.mapp
 import com.user.user_service.role.infrastructure.adapter.output.persistence.repository.RoleRepository;
 import com.user.user_service.role.infrastructure.constant.RoleEnum;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -27,5 +26,13 @@ public class RolePersistenceAdapter implements RoleOutputPort {
         final Role role =  rolePersistenceMapper.toRole(roleEntity.get());
 
         return Optional.of(role);
+    }
+
+    @Override
+    public Role saveUser(Role role) {
+        RoleEntity roleEntity = rolePersistenceMapper.toRoleEntity(role);
+        roleEntity = roleRepository.save(roleEntity);
+
+        return rolePersistenceMapper.toRole(roleEntity);
     }
 }
