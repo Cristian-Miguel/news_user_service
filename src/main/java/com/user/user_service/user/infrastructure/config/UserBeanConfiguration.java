@@ -2,8 +2,12 @@ package com.user.user_service.user.infrastructure.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.user.user_service.role.application.port.output.RoleOutputPort;
+import com.user.user_service.role.domain.model.Role;
 import com.user.user_service.shared.infrastructure.constant.ErrorMessage;
+import com.user.user_service.shared.infrastructure.utils.JwtUtils;
+import com.user.user_service.shared.infrastructure.utils.RoleUtil;
 import com.user.user_service.user.application.port.input.CreateUserUseCase;
+import com.user.user_service.user.application.port.input.UpdateUserUseCase;
 import com.user.user_service.user.application.port.output.UserEventPublisher;
 import com.user.user_service.user.application.port.output.UserOutputPort;
 import com.user.user_service.user.application.service.UserService;
@@ -24,12 +28,15 @@ public class UserBeanConfiguration {
     public UserService userService(final UserOutputPort userOutputPort, final RoleOutputPort roleOutputPort,
                                    final ErrorMessage errorMessage, final PasswordEncoder passwordEncoder,
                                    final UserEventPublisher userEventPublisher,
-                                   final ObjectMapper objectMapper, final UserPersistenceMapper userPersistenceMapper) {
+                                   final ObjectMapper objectMapper, final UserPersistenceMapper userPersistenceMapper,
+                                   final JwtUtils jwtUtils, final RoleUtil roleUtil) {
         return new UserService(
                 userOutputPort, roleOutputPort,
                 errorMessage, passwordEncoder,
                 userEventPublisher, objectMapper,
-                userPersistenceMapper);
+                userPersistenceMapper,
+                jwtUtils, roleUtil
+                );
     }
 
     @Bean
@@ -49,8 +56,9 @@ public class UserBeanConfiguration {
     @Bean
     public KafkaUserEventListenerAdapter userEventListenerAdapter(
             final ObjectMapper objectMapper,
-            final CreateUserUseCase createUserUseCase
+            final CreateUserUseCase createUserUseCase,
+            final UpdateUserUseCase updateUserUseCase
     ){
-        return new KafkaUserEventListenerAdapter(objectMapper, createUserUseCase);
+        return new KafkaUserEventListenerAdapter(objectMapper, createUserUseCase, updateUserUseCase);
     }
 }

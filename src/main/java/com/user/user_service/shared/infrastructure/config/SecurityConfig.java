@@ -27,9 +27,13 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        authRequest ->
-                                authRequest.requestMatchers(HttpMethod.POST,"/api/user").hasRole(RoleEnum.ADMINISTRATOR.getName())
-                                    .anyRequest().authenticated()
+                    authRequest ->
+                        authRequest
+                            .requestMatchers(HttpMethod.PUT,"/api/user").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/api/user").hasAnyAuthority(RoleEnum.ADMINISTRATOR.getCode(), RoleEnum.NEWS_ENTERPRICE.getCode())
+                            .requestMatchers(HttpMethod.GET,"/api/user/**").permitAll()
+                            .requestMatchers(HttpMethod.POST,"/api/user").hasAnyAuthority(RoleEnum.ADMINISTRATOR.getCode(), RoleEnum.NEWS_ENTERPRICE.getCode())
+                            .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManger -> sessionManger.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider)

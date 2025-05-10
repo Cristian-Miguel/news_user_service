@@ -1,19 +1,19 @@
-package com.user.user_service.user.domain.model;
+package com.user.user_service.user.infrastructure.adapter.input.rest.data.response;
+
+import java.time.LocalDate;
 
 import com.user.user_service.role.domain.model.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class GetUserResponse {
 
     private Long id;
 
@@ -27,21 +27,7 @@ public class User {
 
     private String lastName;
 
-    private LocalDateTime createAt;
-
-    private LocalDateTime loggerAt;
-
-    private LocalDateTime updateAt;
-
     private Role role;
 
-    private String password;
-
     private LocalDate birthDate;
-
-    private int failAttempts = 0;
-
-    private LocalDateTime lockTime;
-
-    private User adminUser;
 }

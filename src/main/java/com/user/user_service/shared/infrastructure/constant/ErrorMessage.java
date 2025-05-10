@@ -2,6 +2,8 @@ package com.user.user_service.shared.infrastructure.constant;
 
 import org.springframework.context.annotation.Configuration;
 
+import com.user.user_service.role.infrastructure.constant.RoleEnum;
+
 @Configuration
 public class ErrorMessage {
 
@@ -10,6 +12,8 @@ public class ErrorMessage {
     public final String LOCKED_ACCOUNT = "Your account is locked due to too many failed login attempts. Please try again later.";
     public final String TOKEN_EXPIRED = "Token has expired.";
     public final String TOKEN_MALFORMAT = "Token doesn't have the correct format.";
+    public final String INVALID_UPDATE_SUBUSER = "Don't have permission to update this user.";
+    public final String INVALID_GET_SUBUSER = "Don't have permission to get this user.";
 
     public String buildEmailTakenError(String email){
         return "The email " +
@@ -45,5 +49,21 @@ public class ErrorMessage {
                 username +
                 "'" +
                 " isn't exist in the system.";
+    }
+
+    public String buildUuidUserDontExistError(String uuid){
+        return "The user uuid" +
+                "'" +
+                uuid +
+                "'" +
+                " isn't exist in the system.";
+    }
+
+    public String buildAccessDeniedByRoleError(RoleEnum role){
+        return "The role " +
+                "'" +
+                role.name() +
+                "'" +
+                " doesn't have access to this resource.";
     }
 }

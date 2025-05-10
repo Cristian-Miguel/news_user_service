@@ -1,6 +1,7 @@
 package com.user.user_service.user.infrastructure.adapter.output.persistence.mapper;
 
 import com.user.user_service.user.domain.event.UserCreatedEvent;
+import com.user.user_service.user.domain.event.UserUpdateEvent;
 import com.user.user_service.user.domain.model.User;
 import com.user.user_service.user.infrastructure.adapter.output.persistence.entity.UserEntity;
 import org.mapstruct.Mapper;
@@ -15,4 +16,6 @@ public interface UserPersistenceMapper {
     UserCreatedEvent toUserCreatedEvent(User user);
 
     User toUser(UserCreatedEvent userCreatedEvent);
+
+    User toUser(UserUpdateEvent userCreatedEvent);
 }

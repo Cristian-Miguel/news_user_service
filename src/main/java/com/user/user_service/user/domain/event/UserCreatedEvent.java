@@ -1,6 +1,8 @@
 package com.user.user_service.user.domain.event;
 
 import com.user.user_service.role.domain.model.Role;
+import com.user.user_service.user.domain.model.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,4 +45,5 @@ public class UserCreatedEvent {
 
     private LocalDateTime lockTime;
 
+    private User adminUser;
 }

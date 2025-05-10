@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UuidGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,7 +26,6 @@ public class UserEntity implements UserDetails {
     @GeneratedValue
     private Long id;
 
-    @UuidGenerator
     @Column(nullable = false, unique = true)
     private String uuid;
 
@@ -63,11 +61,14 @@ public class UserEntity implements UserDetails {
     private LocalDate birthDate;
 
     @Column(nullable = false, length = 10)
+    @Builder.Default
     private int failAttempts = 0;
 
     @Column(nullable = true)
     private LocalDateTime lockTime;
 
+    @Column(nullable = true)
+    private UserEntity adminUser;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

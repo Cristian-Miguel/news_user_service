@@ -1,19 +1,21 @@
-package com.user.user_service.user.domain.model;
+package com.user.user_service.user.domain.event;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.user.user_service.role.domain.model.Role;
+import com.user.user_service.user.domain.model.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class UserUpdateEvent {
 
     private Long id;
 
@@ -44,4 +46,5 @@ public class User {
     private LocalDateTime lockTime;
 
     private User adminUser;
+
 }

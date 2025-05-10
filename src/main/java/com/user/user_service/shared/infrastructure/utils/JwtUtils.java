@@ -1,31 +1,27 @@
 package com.user.user_service.shared.infrastructure.utils;
 
-import com.user.user_service.user.domain.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 @Service
 public class JwtUtils {
 
-    @Value("${jwt.secret-key}")
+    @Value("${jwt.secret-key}") 
     private String SECRET_KEY;
 
     private SecretKey getKey() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
+        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        //return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
     }
 
     public String getUsernameFromToken(String token) {

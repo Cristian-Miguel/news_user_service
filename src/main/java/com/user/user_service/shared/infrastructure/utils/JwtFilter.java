@@ -55,7 +55,6 @@ public class JwtFilter extends OncePerRequestFilter {
             Map<String, Object> claims = jwtUtils.getAllClaims(token);
 
             role = RoleEnum.valueOf( (String) claims.get("role") );
-            String email = (String) claims.get("email");
 
         } catch (ExpiredJwtException ex){
             handleErrorResponse(response, "Token expired.",
@@ -79,14 +78,14 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role.getName()));
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    username, null, authorities
-                );
+            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role.getCode()));
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                username, null, authorities
+            );
 
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+            SecurityContextHolder.getContext().setAuthentication(authToken);
         }
 
         filterChain.doFilter(request, response);
@@ -128,8 +127,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
         //Uri and its access Roles
         roleAccessUri.put("/api/user", Map.of(
-                "GET", List.of(RoleEnum.ADMINISTRATOR), // e.g., view user info
-                "POST", List.of(RoleEnum.ADMINISTRATOR) // e.g., create user
+                "GET", List.of(RoleEnum.ADMINISTRATOR, RoleEnum.NEWS_ENTERPRICE), // e.g., view user info
+                "POST", List.of(RoleEnum.ADMINISTRATOR, RoleEnum.NEWS_ENTERPRICE), // e.g., create user
+                "PUT", List.of(RoleEnum.values()) // e.g., update user
+        ));
+
+        roleAccessUri.put("/api/user/**", Map.of(
+                "GET", List.of(RoleEnum.ADMINISTRATOR, RoleEnum.NEWS_ENTERPRICE)
         ));
 
         // Retrieve allowed roles for the given URI and method
