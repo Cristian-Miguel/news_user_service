@@ -39,11 +39,21 @@ public class UserService implements CreateUserUseCase {
     @Override
     public User createUser(User user, boolean isEvent) {
 
-        if(userOutputPort.existByUsername(user.getUsername()))
+        if(userOutputPort.existByUsername(user.getUsername())){
+            if (isEvent) {
+                System.out.println("User " + user.getUsername() + " already exists. Skipping creation from event.");
+                return user; 
+            }
             throw new UserAlreadyExistsException(errorMessage.buildUsernameTakenError(user.getUsername()));
+        }
 
-        if (userOutputPort.existByEmail(user.getEmail()))
+        if (userOutputPort.existByEmail(user.getEmail())){
+            if (isEvent) {
+                System.out.println("Email " + user.getEmail() + " already exists. Skipping creation from event.");
+                return user;
+            }
             throw new UserAlreadyExistsException(errorMessage.buildUsernameTakenError(user.getEmail()));
+        }
 
         Role role = roleOutputPort.findByEnumName(RoleEnum.valueOf(user.getRole().getName().toUpperCase()))
                 .orElseThrow(
@@ -51,7 +61,10 @@ public class UserService implements CreateUserUseCase {
                 );
 
         user.setRole(role);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (!isEvent) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
         user.setCreateAt(LocalDateTime.now());
         user.setUpdateAt(LocalDateTime.now());
         user.setLoggerAt(LocalDateTime.now());
