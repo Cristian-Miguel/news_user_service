@@ -21,9 +21,8 @@ public class RoleUtil {
         if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
             token = token.substring(7);
         }
-        Claims claims = jwtUtils.getAllClaims(token);
 
-        RoleEnum role = RoleEnum.valueOf(claims.get("role", String.class));
+        RoleEnum role = getRoleFromToken(token);
 
         for (RoleEnum roleEnum : rolesWithAccess) {
             if(role.equals(roleEnum)) {
@@ -39,8 +38,10 @@ public class RoleUtil {
             token = token.substring(7);
         }
         Claims claims = jwtUtils.getAllClaims(token);
+        String roleCode = claims.get("role", String.class); 
+        String enumName = roleCode.replace("ROLE_", "");
 
-        return RoleEnum.valueOf(claims.get("role", String.class));
+        return RoleEnum.valueOf(enumName);
     }
 
 }

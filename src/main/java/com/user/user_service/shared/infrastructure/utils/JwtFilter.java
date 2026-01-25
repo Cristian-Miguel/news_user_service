@@ -53,8 +53,9 @@ public class JwtFilter extends OncePerRequestFilter {
             username = jwtUtils.getUsernameFromToken(token);
 
             Map<String, Object> claims = jwtUtils.getAllClaims(token);
-
-            role = RoleEnum.valueOf( (String) claims.get("role") );
+            String roleCode = (String) claims.get("role");
+            String enumName = roleCode.replace("ROLE_", "");
+            role = RoleEnum.valueOf(enumName);
 
         } catch (ExpiredJwtException ex){
             handleErrorResponse(response, "Token expired.",

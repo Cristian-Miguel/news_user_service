@@ -144,7 +144,7 @@ public class UserService implements CreateUserUseCase, UpdateUserUseCase, GetUse
 
         Claims claims = jwtUtils.getAllClaims(token);
         String uuidUser = claims.get("uuid", String.class);
-        RoleEnum roleEnum = RoleEnum.valueOf(claims.get("role", String.class));
+        RoleEnum roleEnum = roleUtil.getRoleFromToken(token);
         String username = user.getUsername();
         
         if(!uuidUser.equals(user.getUuid()) &&
@@ -209,7 +209,7 @@ public class UserService implements CreateUserUseCase, UpdateUserUseCase, GetUse
 
         Claims claims = jwtUtils.getAllClaims(token);
         String email = claims.get("email", String.class);
-        RoleEnum roleEnum = RoleEnum.valueOf(claims.get("role", String.class));
+        RoleEnum roleEnum = roleUtil.getRoleFromToken(token);
         User userRequest = userOutputPort.findByEmail(email)
             .orElseThrow(
                 () -> new UserNotFoundException(errorMessage.buildUuidUserDontExistError(uuid))
