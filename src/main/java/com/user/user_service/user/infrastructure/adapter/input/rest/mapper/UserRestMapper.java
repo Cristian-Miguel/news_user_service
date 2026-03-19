@@ -2,6 +2,7 @@ package com.user.user_service.user.infrastructure.adapter.input.rest.mapper;
 
 import com.user.user_service.shared.domain.model.PageFormats;
 import com.user.user_service.user.domain.model.User;
+import com.user.user_service.user.infrastructure.adapter.input.rest.data.request.ChangeRoleRequest;
 import com.user.user_service.user.infrastructure.adapter.input.rest.data.request.CreateUserRequest;
 import com.user.user_service.user.infrastructure.adapter.input.rest.data.request.UpdateUserRequest;
 import com.user.user_service.user.infrastructure.adapter.input.rest.data.request.UserFilterRequest;
@@ -19,6 +20,8 @@ public interface UserRestMapper {
     User toUser(UpdateUserRequest updateUserRequest);
 
     User toUser(GetUserResponse getUserResponse);
+
+    User toUser(ChangeRoleRequest changeRoleRequest);
 
     CreateUserResponse toCreateUserResponse(User user);
 

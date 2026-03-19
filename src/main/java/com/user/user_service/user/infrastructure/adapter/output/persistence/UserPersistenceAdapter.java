@@ -24,6 +24,17 @@ public class UserPersistenceAdapter implements UserOutputPort {
     private final UserPersistenceMapper userPersistenceMapper;
 
     @Override
+    public User deleteUserByUuid(String uuid) {
+        Optional<UserEntity> userEntityOptional = userRepository.findByUuid(uuid);
+        if(userEntityOptional.isEmpty()){
+            return null;
+        }
+        UserEntity userEntity = userEntityOptional.get();
+        userRepository.delete(userEntity);
+        return userPersistenceMapper.toUser(userEntity);
+    }
+
+    @Override
     public User saveUser(User user) {
         UserEntity userEntity = userPersistenceMapper.toUserEntity(user);
         userEntity = userRepository.save(userEntity);

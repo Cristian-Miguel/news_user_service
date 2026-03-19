@@ -37,12 +37,8 @@ public class UserUpdateEvent {
 
     private Role role;
 
-    private String password;
-
     private LocalDate birthDate;
-
-    private int failAttempts = 0;
-
+    
     private LocalDateTime lockTime;
 
     private User adminUser;

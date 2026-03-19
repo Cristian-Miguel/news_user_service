@@ -27,19 +27,15 @@ public class User {
 
     private String lastName;
 
-    private LocalDateTime createAt;
+    private String profilePictureUrl;
 
-    private LocalDateTime loggerAt;
+    private LocalDateTime createAt;
 
     private LocalDateTime updateAt;
 
     private Role role;
 
-    private String password;
-
     private LocalDate birthDate;
-
-    private int failAttempts = 0;
 
     private LocalDateTime lockTime;
 

@@ -4,8 +4,12 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import com.user.user_service.role.infrastructure.constant.RoleEnum;
 
 import javax.crypto.SecretKey;
 
@@ -54,6 +58,19 @@ public class JwtUtils {
 
     private boolean isTokenExpired(String token){
         return getExpiration(token).before(new Date());
+    }
+
+    public String getUuidFromToken(String token) {
+        if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        } else {
+            throw new AccessDeniedException("Invalid token");
+        }
+        
+        Claims claims = getAllClaims(token);
+        String userUuid = claims.get("uuid", String.class);
+
+        return userUuid;
     }
 
 }

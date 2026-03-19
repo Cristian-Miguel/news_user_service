@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface UserOutputPort {
 
+    User deleteUserByUuid(String uuid);
+
     User saveUser(User user);
 
     Optional<User> findByUsername(String username);

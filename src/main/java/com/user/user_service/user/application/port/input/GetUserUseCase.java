@@ -6,8 +6,10 @@ import org.springframework.data.domain.Page;
 
 public interface GetUserUseCase {
 
-    public User getUserById(String uuid, String token);
+    User getUserById(String uuid, String token);
 
-    public Page<User> getUsers(PageFormats pageFormats, String token);
+    Page<User> getUsers(PageFormats pageFormats, String token);
+    
+    String getProfilePicture(String uuid, String token);
     
 }

@@ -1,6 +1,10 @@
 package com.user.user_service.user.infrastructure.adapter.output.persistence.mapper;
 
+import com.user.user_service.user.domain.event.UserBlockEvent;
+import com.user.user_service.user.domain.event.UserChangeRoleEvent;
 import com.user.user_service.user.domain.event.UserCreatedEvent;
+import com.user.user_service.user.domain.event.UserDeleteEvent;
+import com.user.user_service.user.domain.event.UserUnblockEvent;
 import com.user.user_service.user.domain.event.UserUpdateEvent;
 import com.user.user_service.user.domain.model.User;
 import com.user.user_service.user.infrastructure.adapter.output.persistence.entity.UserEntity;
@@ -10,12 +14,24 @@ import org.mapstruct.Mapper;
 public interface UserPersistenceMapper {
 
     UserEntity toUserEntity(User user);
-
     User toUser(UserEntity userEntity);
 
     UserCreatedEvent toUserCreatedEvent(User user);
-
     User toUser(UserCreatedEvent userCreatedEvent);
 
-    User toUser(UserUpdateEvent userCreatedEvent);
+    UserUpdateEvent toUserUpdateEvent(User user);
+    User toUser(UserUpdateEvent userUpdateEvent);
+    
+    UserDeleteEvent toUserDeleteEvent(User user);
+    User toUser(UserDeleteEvent userDeleteEvent);
+
+    UserChangeRoleEvent toUserChangeRoleEvent(User user);
+    User toUser(UserChangeRoleEvent userChangeRoleEvent);
+
+    UserBlockEvent toUserBlockEvent(User user);
+    User toUser(UserBlockEvent userBlockEvent);
+
+    UserUnblockEvent toUserUnblockEvent(User user);
+    User toUser(UserUnblockEvent userUnblockEvent);
+
 }

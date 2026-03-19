@@ -1,5 +1,7 @@
 package com.user.user_service.shared.infrastructure.utils;
 
+import java.util.Arrays;
+
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -20,6 +22,8 @@ public class RoleUtil {
     public void checkValidRoleAccessResource(String token, RoleEnum[] rolesWithAccess) {
         if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
             token = token.substring(7);
+        } else {
+            throw new AccessDeniedException("Invalid token");
         }
 
         RoleEnum role = getRoleFromToken(token);

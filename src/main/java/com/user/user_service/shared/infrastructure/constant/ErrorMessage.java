@@ -14,6 +14,7 @@ public class ErrorMessage {
     public final String TOKEN_MALFORMAT = "Token doesn't have the correct format.";
     public final String INVALID_UPDATE_SUBUSER = "Don't have permission to update this user.";
     public final String INVALID_GET_SUBUSER = "Don't have permission to get this user.";
+    public final String INVALID_DELETE_SUBUSER = "Don't have permission to delete this user.";
 
     public String buildEmailTakenError(String email){
         return "The email " +

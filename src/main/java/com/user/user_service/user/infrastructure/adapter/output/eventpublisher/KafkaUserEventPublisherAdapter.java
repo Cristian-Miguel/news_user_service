@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.user.user_service.shared.domain.event.FormatEventResponse;
 import com.user.user_service.shared.infrastructure.constant.EventType;
 import com.user.user_service.user.application.port.output.UserEventPublisher;
-import com.user.user_service.user.domain.event.UserCreatedEvent;
-import com.user.user_service.user.domain.model.User;
 import com.user.user_service.user.infrastructure.adapter.output.persistence.mapper.UserPersistenceMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -19,14 +17,12 @@ public class KafkaUserEventPublisherAdapter implements UserEventPublisher {
     private final ObjectMapper objectMapper;
 
     @Override
-    public void  publishUserUpdatesEvent(User user, EventType userEventType) {
+    public <T> void publishUserUpdatesEvent(T event, EventType userEventType) {
         try {
-            UserCreatedEvent userCreatedEvent = userPersistenceMapper.toUserCreatedEvent(user);
-
-            FormatEventResponse<UserCreatedEvent> messageFormat = new FormatEventResponse<>(
+            FormatEventResponse<T> messageFormat = new FormatEventResponse<>(
                     userEventType,
                     "user-service",
-                    userCreatedEvent
+                    event
             );
 
             String jsonFormat = objectMapper.writeValueAsString(messageFormat);
